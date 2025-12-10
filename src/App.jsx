@@ -58,6 +58,23 @@ function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
+  // Close popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (activeHotspot && !e.target.closest('.popup-box') && !e.target.closest('.hotspot-button')) {
+        setActiveHotspot(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [activeHotspot]);
+
   // Diagram Hotspots (Adjust top/left % based on your specific image)
   const hotspots = [
     { id: 'rawVideo', top: '25%', left: '5%' },
@@ -187,7 +204,7 @@ function App() {
               return (
                 <div key={spot.id}>
                   <div
-                    className="absolute w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-125 active:scale-110 z-10 group"
+                    className="hotspot-button absolute w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-125 active:scale-110 z-10 group"
                     style={{ top: spot.top, left: spot.left }}
                     onClick={() => setActiveHotspot(activeHotspot === spot.id ? null : spot.id)}
                   >
@@ -199,7 +216,7 @@ function App() {
                   
                   {activeHotspot === spot.id && (
                     <div 
-                      className={`fixed md:absolute left-4 right-4 md:left-auto md:right-auto bottom-4 md:bottom-auto md:top-auto md:w-80 lg:w-96 p-5 md:p-6 rounded-2xl bg-white/98 dark:bg-slate-900/98 backdrop-blur-xl shadow-2xl border-2 border-slate-200 dark:border-slate-700 z-50 animate-fade-in max-h-[70vh] md:max-h-none overflow-y-auto`}
+                      className={`popup-box fixed md:absolute left-4 right-4 md:left-auto md:right-auto bottom-4 md:bottom-auto md:top-auto md:w-80 lg:w-96 p-5 md:p-6 rounded-2xl bg-white/98 dark:bg-slate-900/98 backdrop-blur-xl shadow-2xl border-2 border-slate-200 dark:border-slate-700 z-50 animate-fade-in max-h-[70vh] md:max-h-none overflow-y-auto`}
                       style={window.innerWidth >= 768 ? { 
                         [isRightSide ? 'right' : 'left']: isRightSide ? `calc(100% - ${spot.left})` : spot.left,
                         [isBottomHalf ? 'bottom' : 'top']: isBottomHalf ? `calc(100% - ${spot.top})` : spot.top
