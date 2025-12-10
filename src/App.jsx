@@ -309,7 +309,7 @@ function App() {
         <div className="relative max-w-7xl mx-auto text-center">
           <p className="text-slate-300 mb-4 min-h-[1.5rem] flex items-center justify-center">{t.footer}</p>
           <div className="flex justify-center gap-6 text-sm text-slate-400">
-            <span>© 2024</span>
+            <span>© 2025</span>
             <span>•</span>
             <span>University of Ruhuna</span>
           </div>
