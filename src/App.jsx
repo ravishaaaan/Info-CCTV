@@ -135,17 +135,17 @@ function App() {
       </section>
 
       {/* Methodology Diagram */}
-      <section className="py-20 px-6 bg-gradient-to-br from-slate-100 to-blue-50 dark:from-slate-900 dark:to-slate-950">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12">
+      <section className="py-20 px-4 md:px-6 bg-gradient-to-br from-slate-100 to-blue-50 dark:from-slate-900 dark:to-slate-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 md:mb-12">
             <div className="inline-flex items-center gap-3 mb-4">
               <div className="w-1.5 h-8 bg-gradient-to-b from-blue-600 to-cyan-500 rounded-full"></div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white min-h-[3rem] flex items-center">{t.diagramTitle}</h2>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white min-h-[3rem] flex items-center">{t.diagramTitle}</h2>
             </div>
           </div>
           
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/50 dark:border-slate-700/50 bg-white dark:bg-slate-900">
-            <img src="/images/architect.png" alt="Architecture" className="w-full object-contain" />
+          <div className="relative rounded-2xl md:rounded-3xl overflow-visible md:overflow-hidden shadow-2xl border border-slate-200/50 dark:border-slate-700/50 bg-white dark:bg-slate-900">
+            <img src="/images/architect.png" alt="Architecture" className="w-full object-contain min-h-[400px] md:min-h-0" />
             
             {hotspots.map((spot) => {
               const leftPos = parseFloat(spot.left);
@@ -156,40 +156,36 @@ function App() {
               return (
                 <div key={spot.id}>
                   <div
-                    className="absolute w-8 h-8 md:w-12 md:h-12 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-125 z-10 group"
+                    className="absolute w-10 h-10 md:w-12 md:h-12 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-125 active:scale-110 z-10 group"
                     style={{ top: spot.top, left: spot.left }}
                     onClick={() => setActiveHotspot(activeHotspot === spot.id ? null : spot.id)}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full opacity-30 group-hover:opacity-50 animate-pulse"></div>
                     <div className="absolute inset-1 bg-white dark:bg-slate-900 rounded-full border-2 border-blue-500 flex items-center justify-center shadow-lg">
-                      <span className="text-xs font-black text-blue-600 dark:text-blue-400">?</span>
+                      <span className="text-xs md:text-sm font-black text-blue-600 dark:text-blue-400">?</span>
                     </div>
                   </div>
                   
                   {activeHotspot === spot.id && (
                     <div 
-                      className={`absolute w-72 md:w-80 p-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-20 animate-fade-in ${
-                        isRightSide ? 'right-0 mr-4' : 'left-0 ml-4'
-                      } ${
-                        isBottomHalf ? 'bottom-0 mb-4' : 'top-0 mt-4'
-                      }`}
-                      style={{ 
+                      className={`fixed md:absolute left-4 right-4 md:left-auto md:right-auto bottom-4 md:bottom-auto md:top-auto md:w-80 lg:w-96 p-5 md:p-6 rounded-2xl bg-white/98 dark:bg-slate-900/98 backdrop-blur-xl shadow-2xl border-2 border-slate-200 dark:border-slate-700 z-50 animate-fade-in max-h-[70vh] md:max-h-none overflow-y-auto`}
+                      style={window.innerWidth >= 768 ? { 
                         [isRightSide ? 'right' : 'left']: isRightSide ? `calc(100% - ${spot.left})` : spot.left,
                         [isBottomHalf ? 'bottom' : 'top']: isBottomHalf ? `calc(100% - ${spot.top})` : spot.top
-                      }}
+                      } : {}}
                     >
                       <div className="flex justify-between items-start mb-3">
-                        <h3 className="text-lg font-black bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent capitalize">
+                        <h3 className="text-base md:text-lg font-black bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent capitalize pr-2">
                           {activeHotspot}
                         </h3>
                         <button 
                           onClick={() => setActiveHotspot(null)} 
-                          className="text-slate-400 hover:text-red-500 transition-colors text-xl font-bold"
+                          className="flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors text-2xl font-bold leading-none -mt-1"
                         >
                           ✕
                         </button>
                       </div>
-                      <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                      <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                         {diagramInfo[activeHotspot][lang]}
                       </p>
                     </div>
