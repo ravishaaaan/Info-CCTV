@@ -6,6 +6,8 @@ function App() {
   const [theme, setTheme] = useState('dark');
   const [activeHotspot, setActiveHotspot] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const t = content[lang];
   
@@ -13,6 +15,35 @@ function App() {
     '/images/slide1.png', '/images/slide2.png', '/images/slide3.png',
     '/images/slide4.jpg', '/images/slide5.png', '/images/slide6.jpg'
   ];
+
+  // Handle touch start
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  // Handle touch move
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  // Handle touch end
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    
+    if (isLeftSwipe) {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }
+    if (isRightSwipe) {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    }
+    
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
 
   // Auto-slide effect
   useEffect(() => {
@@ -243,7 +274,12 @@ function App() {
             </div>
 
             {/* Right Column - Carousel */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video bg-slate-900 group border border-slate-200 dark:border-slate-700">
+            <div 
+              className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video bg-slate-900 group border border-slate-200 dark:border-slate-700"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <img 
                 src={slides[currentSlide]} 
                 alt="Detection Result" 
