@@ -156,13 +156,13 @@ function App() {
               return (
                 <div key={spot.id}>
                   <div
-                    className="absolute w-10 h-10 md:w-12 md:h-12 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-125 active:scale-110 z-10 group"
+                    className="absolute w-6 h-6 md:w-10 md:h-10 lg:w-12 lg:h-12 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-125 active:scale-110 z-10 group"
                     style={{ top: spot.top, left: spot.left }}
                     onClick={() => setActiveHotspot(activeHotspot === spot.id ? null : spot.id)}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full opacity-30 group-hover:opacity-50 animate-pulse"></div>
-                    <div className="absolute inset-1 bg-white dark:bg-slate-900 rounded-full border-2 border-blue-500 flex items-center justify-center shadow-lg">
-                      <span className="text-xs md:text-sm font-black text-blue-600 dark:text-blue-400">?</span>
+                    <div className="absolute inset-0.5 md:inset-1 bg-white dark:bg-slate-900 rounded-full border border-blue-500 md:border-2 flex items-center justify-center shadow-lg">
+                      <span className="text-[8px] md:text-xs lg:text-sm font-black text-blue-600 dark:text-blue-400">?</span>
                     </div>
                   </div>
                   
@@ -295,9 +295,9 @@ function App() {
             <iframe 
               src="https://docs.google.com/forms/d/e/1FAIpQLSfgkmkBx-4AucjlQvb9p-8vRkJ_LGHFySIIJz_gic78wNgyIQ/viewform?embedded=true" 
               width="100%" 
-              height="800" 
+              height="1400"
+              className="block h-[1400px] md:h-[1200px]"
               frameBorder="0" 
-              className="block"
             >Loading…</iframe>
           </div>
         </div>
